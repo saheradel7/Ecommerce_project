@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders</title>
+  <link rel="stylesheet" href="Css/all.min.css">
+  <link rel="stylesheet" href="Css/bootstrap.min.css">
+  <link rel="stylesheet" href="Css/style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <a class="nav-link me-auto mb-2" href="Index.html"><img src="logo.jpg" alt=""></a>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarList"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">! Font Awesome Free 6.4.0 by
+          @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License)
+          Copyright 2023 Fonticons, Inc.
+          <path fill="white"
+            d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+        </svg>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarList">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="./adminDashbord.html" target="_self"> products </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./users.html">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./Catogeries.html">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="./OrderAdmin.html" target="_self">Orders</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- End Nav Bar -->
+  <div class=" ">
+    <table class="table table-striped table-bordered align-baseline table-dark text-center" id="ProsuctTable">
+      <thead>
+        <tr class="">
+          <th scope="col">Id</th>
+          <th scope="col">customer Name</th>
+          <th scope="col">products Name</th>
+          <th scope="col">total Price</th>
+          <th scope="col">devlivary Date</th>
+          <th scope="col">destination</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+
+      </thead>
+      <tbody id="ProductTablebody">
+
+
+      </tbody>
+    </table>
+  </div>
+  <script src="Js/bootstrap.bundle.min.js"></script>
+  <script>
+
+
+
+    let arr_Name_products = [] // USED IN FUN getNamesProductId
+    let customerName = [];
+    getNamesProductId()
+    fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+      .then(response => {
+        return response.json();
+
+      })
+      .then(data => {
+
+        let fireBaseIndes;
+        for (let key in data.Orders) {
+          if (data.Orders[key] != null) // when you delete the firebase set element with null
+          {
+            fireBaseIndes = key;
+            createElement(data.Orders[key], fireBaseIndes, arr_Name_products[key], customerName[key])
+          }
+        }
+
+      })
+    // CREAT TABLE-TR OF TABLE DISPLAY ORDERS
+    function createElement(item, fireBaseIndex, products_Name, customer_Name) {
+      let tr = document.createElement('tr');
+      tr.setAttribute("id", `${item.id}`)
+      tr.innerHTML = ` 
+          <th class="p-3" scope="col">${item.id}</th>
+          <th scope="col"> ${customer_Name} </th>
+          <th scope="col">${products_Name}</th>
+          <th scope="col">${item.totalPrice}</th>
+          <th scope="col">${item.devlivaryDate}</th>
+          <th scope="col">${item.destination}</th>
+          <th scope="col"><button type="button" class="btn btn-sm btn-block btn-warning" onclick="Edit(${fireBaseIndex},${item.id})"> Edit</button>
+</th>
+
+          <th scope="col"><button type="button" class="btn btn-sm btn-block btn-danger" onclick="Delete(${fireBaseIndex},${item.id})"> Delete</button>
+</th>
+          `
+      document.getElementById("ProductTablebody").appendChild(tr);
+    }
+
+    function Edit(fireBaseIndex, id) {
+      window.close();
+      window.open("editOrder.html?fireBaseIndex=" + fireBaseIndex + "& id=" + id + "", "_blank", "top=100,left=500,width=500,height=600")
+    }
+    function Delete(fireBaseIndex, id) {
+      let status = confirm("are you want to delete product number :\t" + id);
+      if (status) {
+
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Orders/" + fireBaseIndex + ".json",
+          {
+            method: "Delete"
+          })
+          .then(response => {
+            alert("Item Deleted Successfully")
+            document.getElementById(`${id}`).remove();
+          }).catch(error => {
+            alert("item not deleted")
+          })
+      }
+    }
+
+    function getNamesProductId() {
+      fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          let idproduct = []
+          let arr_All_Name_products = []
+          let nameCustomerId = ""
+          for (let key in data.Orders) {
+            if (data.Orders[key] != null) {
+              idproduct = data.Orders[key].productId
+              for (let key1 in idproduct) {
+                for (let key2 in data.products) {
+                  if (data.products[key2] != null) {
+                    if (parseInt(idproduct[key1]) == data.products[key2].id) {
+                      arr_All_Name_products.push(data.products[key2].name)
+                    }
+                  }
+                }
+              }
+              arr_Name_products.push(arr_All_Name_products);
+              arr_All_Name_products = []
+              for (let key2 in data.Users) {
+                if (data.Users[key2] != null) {
+                  if (data.Orders[key].customerId == data.Users[key2].id) {
+                    nameCustomerId = data.Users[key2].firstNname + " " + data.Users[key2].lastName
+                    customerName.push(nameCustomerId)
+                  }
+                }
+              }
+            }
+          }
+        })
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart_Shoping</title>
+    <link rel="stylesheet" href="Css/bootstrap.min.css">
+    <link rel="stylesheet" href="Css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Css/orderpayment.css">
+</head>
+
+<body>
+
+    <div class="container mt-5 p-1 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="product-details mr-2" id="Cat_Shoping">
+                    <div class="d-flex flex-row align-items-center"><i class="fa fa-long-arrow-left"></i><span
+                            class="ml-2">Continue Shopping</span></div>
+                    <hr>
+                    <h6 class="mb-0">Shopping cart</h6>
+                    <div class="d-flex justify-content-between"><span class="Items_number"></span>
+                        <div class="d-flex flex-row align-items-center"><span class="text-black-50">Sort by:</span>
+                            <div class="price ml-2"><span class="mr-1">price</span><i class="fa fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <form>
+                    <div class="payment-info">
+                        <div class="d-flex justify-content-between align-items-center"><span>Card details</span><img
+                                class="rounded" src="Images/LogoECom2.PNG" width="30"></div><span
+                            class="type d-block mt-3 mb-1">Card type</span><label class="radio">
+                            <input type="radio" name="card" value="masterCard"> <span><img width="30"
+                                    src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
+
+                        <label class="radio"> <input type="radio" name="card" value="visa"> <span><img width="30"
+                                    src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
+
+                        <label class="radio"> <input type="radio" name="card" value="americanExpress"> <span><img
+                                    width="30" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span>
+                        </label>
+
+
+                        <label class="radio"> <input type="radio" name="card" value="paypal"> <span><img width="30"
+                                    src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
+                        <div>
+                            <label class="credit-card-label">Write down your country</label>
+                            <input type="text" class="form-control credit-inputs" placeholder="Country Name"
+                                id="Country_Name" required>
+                        </div>
+                        <div>
+                            <label class="credit-card-label">Card number</label>
+                            <input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000"
+                                id="Card_Number">
+                        </div>
+                        <div class="row">
+                            <!-- ////////// chose the date Deleivery  -->
+                            <div class="col-md-6">
+                                <label class="credit-card-label">Date</label>
+                                <input type="date" class="form-control credit-inputs" placeholder="Chose Your Date"
+                                    id="Delivery_Date" required>
+                            </div>
+                            <!-- ////////// Total Price   -->
+                            <div class="col-md-6">
+                                <label class="credit-card-label">Total_price_With_tax</label>
+                                <input type="text" class="form-control credit-inputs" placeholder="total_price"
+                                    id="Total_Price_Input_Field" disabled>
+                            </div>
+                        </div>
+                        <hr class="line">
+                        <div class="d-flex justify-content-between information"><span id="Subtotal">Subtotal :
+                            </span><span>$</span>
+                        </div>
+                        <div class="d-flex justify-content-between information"><span id="Shipping">Shipping :
+                            </span><span>$</span>
+                        </div>
+                        <div class="d-flex justify-content-between information">
+                            <span id="TotalWithTaxes">Total(Incl.taxes) : </span><span>$</span>
+                        </div>
+                        <button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="button"
+                            onclick="Set_Order(event)">
+                            <span id="TotalFull">$</span>
+                            <span>Checkout<i class="fa fa-long-arrow-right ml-1"></i></span>
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <!-- /////////////////////////////////////     Second Cart Shoping   ////////////////////////// -->
+
+
+    <script src="Js/jquery-3.5.1.min.js"></script>
+    <script src="Js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // let params = (new URL(document.location)).searchParams;
+        // let User_ID = params.get("UserId");
+        let FIreBaseIndex_I = (JSON.parse(localStorage.getItem("FirbaseIndex")))
+        let User_ID = ((localStorage.getItem("userId")))
+
+
+
+        /// here we go to fetch the name of Products 
+        ///// product proparty sale ...  description ... url ... name ...
+        var TotalFull = document.getElementById("TotalFull")  //for button
+        var TotalWithTaxes = document.getElementById("TotalWithTaxes")
+        var Shipping = document.getElementById("Shipping")
+        var Subtotal = document.getElementById("Subtotal")
+        var Cat_Shoping = document.getElementById("Cat_Shoping")
+        var arr_name_of_product_boughted = []
+        var ProductId = JSON.parse(localStorage.getItem("Orders"))
+        var real_array_without_Duplicated = []
+        var arr_Number_of_Duplicated_number = []
+
+        window.onload = function () {
+
+
+            /////////////////////////      to solve the duplicate product      //////////
+            if (!localStorage.getItem("Orders")) {
+                // localStorage.clear()
+
+                alert("There is no Item to Display for you ")
+
+                return
+            }
+
+            FilterProduct_fromDuplicated();
+            Fetch_Product_Bughted_and_Display_it_InCheck_outPage()
+
+            /////////////////////////// End Calculate Duplicated ///////////////////////////
+
+
+        }
+
+        //////// function Filter product chosen into two array real array with duplicated and new array without duplicated
+        function FilterProduct_fromDuplicated() {
+            var array_elements = JSON.parse(localStorage.getItem("Orders"))
+            array_elements.sort();
+
+            var current = null;
+            var cnt = 0;
+            for (var i = 0; i < array_elements.length; i++) {
+                if (array_elements[i] != current) {
+                    if (cnt > 0) {
+                        real_array_without_Duplicated.push(current)
+                        arr_Number_of_Duplicated_number.push(cnt)
+
+                    }
+                    current = array_elements[i];
+                    cnt = 1;
+                } else {
+                    cnt++;
+                }
+            }
+            if (cnt > 0) {
+                real_array_without_Duplicated.push(current)
+                arr_Number_of_Duplicated_number.push(cnt)
+            }
+
+
+        }
+
+
+
+
+
+        //////// ///////////////////////:::::::::::::::  function fetch product chosen :::::::::::::::::://////////////////
+
+        function Fetch_Product_Bughted_and_Display_it_InCheck_outPage() {
+            fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products.json")
+                .then(response => {
+                    return response.json();
+
+                })
+                .then(data => {
+                    let fireBaseIndes;
+
+                    var totalPrice = 0
+                    for (let key of data) {
+                        if (key != null) // when you delete the firebase set element with null
+                        {
+                            if (!(localStorage.getItem("Orders"))) {
+                                return
+                            }
+                            for (let st = 0; st < real_array_without_Duplicated.length; st++) {
+                                if (key.id == real_array_without_Duplicated[st]) {
+                                    fireBaseIndes = key
+                                    var CarProductCheckOut1 = `<div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded" id="${fireBaseIndes.id}">
+                                        <div class="d-flex flex-row"><img class="rounded" src="${key.url}"
+                                            width="40">
+                                            <div class="ml-2"><span class="font-weight-bold d-block">${key.name}
+                                                10&nbsp;</span><span class="spec">${key.description}</span></div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center"><span class="d-block Amount">amount</span><span
+                                            class="d-block ml-5 font-weight-bold">${key.sale}$</span><i
+                                                class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                                    </div>`
+
+
+
+                                    //// The Acctually code used in the bottom
+                                    var CarProductCheckOut =
+                                        `<div class="row d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                                          <div class="col-sm-4 image flex-row d-inline-sm">
+                                            <img class="rounded" src="${key.url}" width="170" height="100">
+                                          </div>
+                                        <div class="col-sm-5 description ml-2 flex-row d-inline-sm">
+                                          <span class="font-weight-bold d-block">${key.name}</span>
+                                          <span class="spec">${key.description.slice(0, 120)}</span>
+                                        </div>
+                                        <div class="col-sm-2 amount flex-row d-inline-sm">
+                                           <span class="d-block">Amount Is :${arr_Number_of_Duplicated_number[st]}</span>
+                                        </div>
+                                        <div class="col-sm-1 price flex-row  d-flex flex-row align-items-center d-inline-sm">
+                                          <span class="d-block ml-5 font-weight-bold">$${key.sale * arr_Number_of_Duplicated_number[st]}</span>
+                                          <i class="fa fa-trash-o ml-3 text-black-50"></i>
+                                        </div>
+                                        <div class="row">
+                                        <button class="btn_Increasing btn btn-outline-success col-sm-3 d-block" name=${key.id} onclick="increasing(this)"><i class="fa-solid fa-caret-up"></i></button>
+                                        <button class="btn_Decreasing btn btn-outline-danger col-sm-3" name=${key.id} onclick="decreasing(this)"><i class="fa-solid fa-caret-down"></i></button>
+                                        <!--<span class="Display_Icreasing_Decreasing col-sm-2" id="Display_Counter_For_Product"></span>-->
+                                        <button class="btn_Delete btn btn-danger col-sm-6" name="${fireBaseIndes.id}" onclick="DeleteOrderOfProduct(this,${fireBaseIndes.id})">DeleteProduct</button>
+                                        </div>
+                                    </div>`
+
+
+
+
+
+
+                                    Cat_Shoping.innerHTML += CarProductCheckOut
+                                    totalPrice += parseInt(key.sale) * arr_Number_of_Duplicated_number[st]
+
+                                }
+
+
+                            }
+
+                        }
+                    }
+
+                    Subtotal.innerHTML += totalPrice
+                    Shipping.innerHTML += 20
+                    TotalWithTaxes.innerHTML += totalPrice + 20
+                    TotalFull.innerHTML += totalPrice + 20
+                    document.getElementById("Total_Price_Input_Field").value = totalPrice + 20
+
+                })
+
+
+        }
+
+
+
+        ///////////////////////:::::::::::::::   Set Product After Check out Form   :::::::::::::::::://////////////////
+
+        function Set_Order(e) {
+            e.preventDefault();
+            let customerId = User_ID;
+            let totalPrice = document.getElementById("Total_Price_Input_Field").value;
+            let devlivaryDate = document.getElementById("Delivery_Date").value;
+            let destination = document.getElementById("Country_Name").value;
+            let Card_Number = document.getElementById("Card_Number").value;
+            let id = 0;
+            var Card_Type = displayRadioValue()
+            var Validate_Card = creditCardValidation(Card_Number, Card_Type)
+            console.log(" validation card number is : " + Validate_Card)
+            var ValidateDate = compareDates(devlivaryDate)
+
+            console.log(Card_Type)
+            if (devlivaryDate != "" && destination != "" && Validate_Card != null && ValidateDate == true) {
+                if (localStorage.getItem('userId')) {
+
+                    if (localStorage.getItem("Orders")) {
+
+                        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Orders.json")
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data != null) {
+                                    id = data.length;
+                                } else {
+                                    data = [];
+                                }
+
+                                let obj = {};
+                                data[id] = obj;
+                                obj["id"] = id + 1;
+                                obj["customerId"] = customerId;
+                                obj["productId"] = ProductId;
+                                obj["devlivaryDate"] = devlivaryDate;
+                                obj["totalPrice"] = totalPrice;
+                                obj["destination"] = destination;
+                                // data.push(obj);
+                                ////////////////// Statr Sirst Fetch
+                                fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Orders.json",
+                                    {
+                                        method: "PUT",
+                                        mode: "cors",
+                                        cache: "no-cache",
+                                        credentials: "same-origin",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        redirect: "follow",
+                                        referrerPolicy: "no-referrer",
+                                        body: JSON.stringify(data)
+                                    })
+                                    .then(response => {
+                                        alert("Your Order Is Done successfully waite reception");
+                                        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Users/" + FIreBaseIndex_I + ".json")
+                                            .then(response => {
+                                                return response.json()
+                                            })
+                                            .then((data) => {
+                                                if (data.orders == null) {
+                                                    orders = [];
+                                                    let obj = {};
+                                                    orders[0] = obj;
+                                                    obj["indexProduct"] = ProductId;
+                                                    data.orders = orders;
+                                                }
+                                                else {
+                                                    let orders = data.orders;
+                                                    let obj = {};
+                                                    orders[data.orders.length] = obj;
+                                                    obj["indexProduct"] = ProductId;
+                                                    data.orders = orders;
+                                                }
+
+
+                                                fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Users/" + FIreBaseIndex_I + ".json",
+                                                    {
+                                                        method: "PUT",
+                                                        mode: "cors",
+                                                        cache: "no-cache",
+                                                        credentials: "same-origin",
+                                                        headers: {
+                                                            "Content-Type": "application/json",
+                                                        },
+                                                        redirect: "follow",
+                                                        referrerPolicy: "no-referrer",
+                                                        body: JSON.stringify(data)
+                                                    })
+                                                    .then(response => {
+                                                        alert("Your Order Is Done successfully waite reception");
+                                                        localStorage.removeItem("Orders")
+                                                        localStorage.removeItem("Counter")
+                                                    })
+                                                    .catch(error => {
+                                                        alert(" Opaaaaaa error ")
+                                                    })
+
+                                            })
+                                            .catch(error => {
+                                                alert("item not stored")
+                                            })
+
+
+                                    })
+                                    .catch(error => {
+                                        alert(" Opaaaaaa error ")
+                                    })
+                                //////////////// End Second Fetch
+
+
+
+                            })
+
+                    }
+                    else {
+                        alert("There is no item to make order an it ")
+                    }
+
+
+                }
+                else {
+                    alert("You have to login Firstly before check out")
+                    return
+
+                }
+
+            }
+            else {
+                alert("Ensure you fill all fields , your card Number is valid , your Date is valid and select card type mendatory")
+            }
+
+        }
+        var arrdeletedproducts = []
+
+        // ProductId array that carry items from local storage
+        //Orders key in local storage
+        var counterProducts = 0;
+        function DeleteOrderOfProduct(e, Item_To_Remove_it) {
+
+            // var arlocal = JSON.parse(localStorage.getItem('reptiles'));
+            // localStorage.setItem("reptiles", JSON.stringify(arlocal))
+            if (localStorage.getItem('Orders')) {
+                for (var i = ProductId.length - 1; i >= 0; i--) {
+                    if (ProductId[i] === Item_To_Remove_it) {
+                        ProductId.splice(i, 1);
+                    }
+                }
+                localStorage.setItem("Orders", JSON.stringify(ProductId))
+                counterProducts = (JSON.parse(localStorage.getItem("Counter")))
+                counterProducts--
+                localStorage.setItem("Counter", JSON.stringify(counterProducts))
+                location.reload()
+
+            }
+            else {
+                return
+            }
+        }
+
+        function creditCardValidation(creditCradNum, type) {
+
+            //discoverCredit
+            var DiscoverdCredit = /^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/
+            var VisaCredit = /^4[0-9]{12}(?:[0-9]{3})?$/
+            var _Visa=/b(?:\d{4}[ -]?){3}(?=\d{4}\b)/gm   /////^(5$|5[1-5])
+            var AmericanCridt = /^3[47][0-9]{13}$/
+            var MaestroCredit = /^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/
+            var JCBCredit = /^(?:2131|1800|35[0-9]{3})[0-9]{11}$/
+            var DinnerClubCredit = /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/
+            ///mastercard
+            var MaseterCard = /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/;
+            var ffflag = null
+            console.log("type of card from credit validation : " + type)
+            if (type != "noneChecked") {
+                if (type == "masterCard") {
+
+                    ffflag = creditCradNum.match(MaseterCard)
+                    return ffflag
+
+                }
+                else if (type == "visa") {
+                    ffflag = creditCradNum.match(VisaCredit)
+                    return ffflag
+
+                } else if (type == "americanExpress") {
+                    ffflag = creditCradNum.match(AmericanCridt)
+                    return ffflag
+
+                } else {
+                    //paypal
+                    ffflag = creditCradNum.match(DiscoverdCredit)
+                    return ffflag
+
+                }
+
+            }
+            else {
+                return ffflag
+            }
+
+
+
+        }
+
+
+        /////////////////////::::::::::::  select type of card ::::::::::://////////////
+        function displayRadioValue() {
+            var ele = document.getElementsByName('card');
+            var Card_Type = ""
+            for (i = 0; i < ele.length; i++) {
+                // document.getElementById("result").innerHTML = "Gender: " + ele[i].value;
+                if (ele[i].checked) {
+                    Card_Type = ele[i].value
+                    return Card_Type
+                }
+
+
+            }
+            if (Card_Type) {
+                return Card_Type
+            }
+            else {
+                return "noneChecked"
+            }
+
+        }
+
+
+        ///////////////////////:::::::::::::::    Compare Date   :::::::::::::::::://////////////////
+
+        function compareDates(d2) {
+
+            var date1 = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            var d2 = new Date(d2).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            // let date2 = new Date("08/12/2023");
+            var date_1 = date1
+            var date_2 = d2
+            var year_1 = date_1.split('/')[2]
+            var year_2 = date_2.split('/')[2]
+            if (date_1 < date_2 && year_1 == year_2) {
+                return true
+            }
+            else {
+                return false
+            }
+        };
+
+
+        ///////////////////////:::::::::::::::   decreasing function  :::::::::::::::::://////////////////
+
+        function decreasing(e) {
+            var Dec_arrproducts = (JSON.parse(localStorage.getItem("Orders")))
+
+            var span = e.nextElementSibling
+            span.style.display = 'inline-block'
+            /////////////////////////////////////////////////////
+
+            for (var i = 0; i < Dec_arrproducts.length; i++) {
+                if (Dec_arrproducts[i] == e.name) {
+                    Dec_arrproducts.splice(i, 1)
+                    break;
+                }
+
+            }
+
+
+            //////////////////////////////////////////////////////
+            // arrproducts.push(parseInt(e.name))
+            localStorage.setItem("Orders", JSON.stringify(Dec_arrproducts))
+
+            //////////////////////// Counter Product////////////////////////
+
+            flage_count = 0;
+            for (var i = 0; i < Dec_arrproducts.length; i++) {
+                if (Dec_arrproducts[i] == e.name) {
+                    flage_count++
+                }
+
+            }
+            if (flage_count != 0) {
+                console.log(flage_count)
+                counterProducts = (JSON.parse(localStorage.getItem("Counter")))
+                counterProducts--
+                localStorage.setItem("Counter", JSON.stringify(counterProducts))
+                // ProductsCounter.innerHTML = counterProducts
+                span.innerHTML = flage_count
+                FilterProduct_fromDuplicated();
+                window.location.reload()
+            }
+            else {
+                span.innerHTML = 0
+            }
+
+
+        }
+
+        ////////////// :::::::::::   increasing function  :::::::::::::::::://////////////////
+        function increasing(e) {
+            var btn = e.nextElementSibling;
+            var span = btn.nextElementSibling
+            span.style.display = 'inline-block'
+            // console.log(span)
+            var Inc_arrproducts = (JSON.parse(localStorage.getItem("Orders")))
+            Inc_arrproducts.push(parseInt(e.name))
+            localStorage.setItem("Orders", JSON.stringify(Inc_arrproducts))
+            // Inc_arrproducts=[]
+
+            ////////////////////////          Counter Product    ////////////////////////
+            counterProducts = (JSON.parse(localStorage.getItem("Counter")))
+            counterProducts++
+            localStorage.setItem("Counter", JSON.stringify(counterProducts))
+            // ProductsCounter.innerHTML = counterProducts
+            flage_count = 0;
+            for (var i = 0; i < Inc_arrproducts.length; i++) {
+                if (Inc_arrproducts[i] == e.name) {
+                    flage_count++
+                }
+
+            }
+            span.innerHTML = flage_count
+            FilterProduct_fromDuplicated();
+            window.location.reload()
+
+
+        }
+    </script>
+</body>
+
+</html>

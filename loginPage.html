@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="Css/bootstrap.min.css">
+  <link rel="stylesheet" href="Css/style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="Index.html">
+        <img src="Images/LogoECom2.PNG" alt="Logo" srcset="" width="40px" height="40px" class="Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0" style="--bs-scroll-height: 100px;" id="MoveSections">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="Index.html">Home</a>
+          </li>
+        </ul>
+
+
+        <!-- <input class="form-control me-2 d-md-block d-sm-none" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success d-md-block d-sm-none" type="submit">Search</button> -->
+
+
+        <a class="navbar-brand btn btn-primary Login" href="loginPage.html">Login</a>
+        <a class="navbar-brand btn btn-primary Register" href="RegisterPage.html">Register</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form>
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+          <p class="MessageReuired"></p>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+          <p class="PasswordMessage"></p>
+        </div>
+        <button type="submit" id="amazon" class="btn btn-primary btn-block login-button"
+          onclick="login(event)">Login</button>
+        <p class="text-center mt-3">Don't have an account? <a href="RegisterPage.html">Register here</a></p>
+      </form>
+    </div>
+  </div>
+  <!-- <script src="Js/bootstrap.bundle.min.js"></script> -->
+  <script>
+    function login(e) {
+      e.preventDefault()
+
+
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let data = {
+
+        email: `${email}`,
+        password: `${password}`
+      }
+      IsValid = validateForm(data);
+      if (IsValid) {
+        fetch1();
+      }
+      else {
+        alert(" oops ")
+      }
+    }
+
+
+    function validateForm(item) {
+      let regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%#*?&]{6,}$/g;
+      let regexEmail = /^[\w]+@[\w-]+\.(com|net|edu|org)$/i;
+      if (item.email == "" || item.password == "") {
+        alert("item is empty");
+        return false;
+      }
+      else if (!(regexEmail.test(item.email))) {
+        alert("email is incorect");
+        return false;
+      } else if (!(regexPassword.test(item.password))) {
+        alert("password is incorect");
+        return false;
+      }
+      return true;
+    }
+
+
+    function fetch1() {
+      fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          let email = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+          let Users = data.Users;
+          firbaseindex = Users.length;
+          let userId = Users.length;
+          let flag = Users.find(u => u != null && u.email == email && u.password == password);
+          if (flag != null) {
+            localStorage.setItem("FirbaseIndex", flag.id - 1);
+            localStorage.setItem("userId", flag.id);
+            localStorage.setItem("userName", flag.firstNname);
+            location.href = "index.html";
+          }
+          else {
+            alert(" You Dot Have Acount Please Rigister First ")
+          }
+
+        })
+        .catch(error => {
+          alert("error opss")
+        })
+
+    }
+  </script>
+</body>
+
+</html>

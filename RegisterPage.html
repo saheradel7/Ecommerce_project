@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Css/bootstrap.min.css">
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="Index.html">
+                <img src="Images/LogoECom2.PNG" alt="Logo" srcset="" width="40px" height="40px" class="Logo">
+            </a>
+            <a class="navbar-brand" href="EditProfile.html?UserId=3"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0" style="--bs-scroll-height: 100px;" id="MoveSections">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Index.html">Home</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand btn btn-primary Login" href="loginPage.html">Login</a>
+                <a class="navbar-brand btn btn-primary Register" href="RegisterPage.html">Register</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="registration-form">
+                    <h2>Register</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="first-name" class="form-control" required>
+                            <p class="MessageReuired"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" name="last-name" class="form-control" required>
+                            <p class="MessageReuired"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                            <p class="MessageReuired"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <p id="passwordMessage"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control"
+                                required>
+                            <p id="passwordMessage"></p>
+                        </div>
+                        <button type="submit" id="sumbitButton" class="register-btn btn btn-primary"
+                            onclick="Register(event)">Register</button>
+                        <p class="text-center mt-3">Already have an account? <a href="loginPage.html">Login here</a></p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function Register(e) {
+            e.preventDefault();
+            let firstName = document.getElementById("first-name").value;
+            let lastName = document.getElementById("last-name").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+            let data;
+            data = {
+                firstName: `${firstName}`,
+                lastName: `${lastName}`,
+                email: `${email}`,
+                password: `${password}`,
+                confirmPassword: `${confirmPassword}`
+            }
+            IsValid = validateForm(data);
+            if (IsValid) {
+                fetch1();
+            }
+            else {
+                alert(" oops ")
+            }
+        }
+        function validateForm(item) {
+            let regfaname = new RegExp(/^[a-zA-Z ]+(([a-zA-Z])[a-zA-Z ]*)*$/g)
+            let reglaname = new RegExp(/^[a-zA-Z ]+(([a-zA-Z])[a-zA-Z ]*)*$/g)
+            let regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+            let regexEmail = /^[\w]+@[\w-]+\.(com|net|edu|org)$/i;// const regurl = new RegExp(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/g)
+            if (item.firstName == "" || item.lastName == "" || item.email == "" || item.password == "" || item.confirmPassword == "") {
+                alert("item is empty");
+                return false;
+            }
+            else if (!(reglaname.test(item.lastName))) {
+                alert("lastName is incorect");
+                return false;
+            } else if (!(regfaname.test(item.firstName))) {
+                alert("firstNname is incorect");
+                return false;
+            }
+            else if (!(regexEmail.test(item.email))) {
+                alert("email is incorect");
+                return false;
+            } else if (!regexPassword.test(item.password)) {
+                alert("password is incorect");
+                return false;
+            } else if (!regexPassword.test(item.confirmPassword)) {
+                alert("confirmPassword is incorect");
+                return false;
+            } else if (!(item.password == item.confirmPassword)) {
+                alert("password not the same confirmPassword");
+                return false;
+            }
+            return true;
+        }
+        function fetch1() {
+            fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    let firstName = document.getElementById("first-name").value;
+                    let lastName = document.getElementById("last-name").value;
+                    let email = document.getElementById("email").value;
+                    let password = document.getElementById("password").value;
+                    let confirmPassword = document.getElementById("confirm-password").value;
+                    let Users = data.Users;
+                    firbaseindex = Users.length;
+                    let userId = Users.length;
+                    let flag = Users.find(u => u != null && u.email == email);
+                    if (flag == null) {
+                        let obj = {};
+                        Users[firbaseindex] = obj;
+                        obj["id"] = Users.length;
+                        obj["firstNname"] = firstName;
+                        obj["lastName"] = lastName;
+                        obj["email"] = email;
+                        obj["password"] = password;
+                        obj["orders"] = null;
+                        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Users.json",
+                            {
+                                method: "PUT",
+                                mode: "cors",
+                                cache: "no-cache",
+                                credentials: "same-origin",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                redirect: "follow",
+                                referrerPolicy: "no-referrer",
+                                body: JSON.stringify(Users)
+                            })
+                            .then(response => {
+                                alert("item Added successfully ");
+                                let NewUser;
+                                localStorage.setItem("FirbaseIndex", firbaseindex);
+                                localStorage.setItem("userId", ++firbaseindex);
+                                location.href = "index.html";
+                            })
+                            .catch(error => {
+                                alert(" opps error ")
+                            })
+                    }
+                    else {
+                        alert(" Email Oredy Exist  ")
+                    }
+                })
+                .catch(error => {
+                    alert(error)
+                })
+        }
+    </script>
+</body>
+
+</html>

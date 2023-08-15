@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Add New Product </title>
+    <link href="Css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #19283f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="FormA" class="row g-4 m-5 ">
+            <label class="col-3 rounded-2 bg-primary me-2" for="productName"> Name </label>
+            <input class="rounded-2 bg-warning col-8" type="text" name="productName" id="productName"
+                placeholder="Enter productName" required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="productDescrption"> Descrption </label>
+            <input class="rounded-2 bg-warning col-8" type="text" name="productDescrption" id="productDescrption"
+                placeholder="Enter productDescrption" required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="url"> urlImg </label>
+            <input class="rounded-2 bg-warning col-8" type="url" name="url" id="url" placeholder="Enter urlImg"
+                required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="ProductSale"> Sale </label>
+            <input class="rounded-2 bg-warning col-8" type="number" name="ProductSale" id="ProductSale"
+                placeholder="Enter ProductSale" required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="ProductBay"> Bay </label>
+            <input class="rounded-2 bg-warning col-8" type="number" name="ProductBay" id="ProductBay"
+                placeholder="Enter ProductBay" required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="productAmount"> Amount </label>
+            <input class="rounded-2 bg-warning col-8" type="number" name="productAmount" id="productAmount"
+                placeholder="Enter productAmount" required>
+            <label class="col-3 rounded-2 bg-primary me-2" for="Category"> Category </label>
+            <select class="rounded-2 bg-warning col-8" name="Categort" id="Category"></select>
+            <input class="btn btn-sm btn-block btn-success border-2 border-light col-11 mx-1" type="submit"
+                name="submitBtn" id="submitBtn" value="Save Changes" onclick="CreateProduct(event)">
+            <input class="btn btn-sm btn-block btn-danger border-2 border-light col-11 mx-1" type="button"
+                name="cancleBtn" id="cancleBtn" value=" Cancel " onclick="Cancele()">
+            <input class="btn btn-sm btn-block bg-secondary border-2 border-light col-11 mx-1" type="reset"
+                value="Reset the input">
+        </form>
+    </div>
+    <script>
+
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Categories.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                let select = document.getElementById("Category");
+                for (let key in data) {
+                    if (data[key] != null) {
+                        let option = document.createElement('option');
+                        option.setAttribute("value", data[key].id);
+                        option.textContent = data[key].name
+                        select.appendChild(option)
+                    }
+                }
+            }
+            );
+
+
+        function CreateProduct(e) {
+
+            e.preventDefault();
+            let name = document.getElementById("productName").value;
+            let description = document.getElementById("productDescrption").value;
+            let url = document.getElementById("url").value;
+            let sale = document.getElementById("ProductSale").value;
+            let amount = document.getElementById("productAmount").value;
+            let bay = document.getElementById("ProductBay").value;
+            let CategoryId = document.getElementById("Category").value;
+            let id;
+            let data = {
+                name: `${name}`,
+                description: `${description}`,
+                url: `${url}`,
+                sale: `${sale}`,
+                bay: `${bay}`,
+                amount: `${amount}`,
+                CategoryId: `${CategoryId}`,
+            }
+            IsValid = validateForm(data);
+            if (IsValid) {
+                fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products.json")
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        id = data.length;
+                        let obj = {};
+                        data[id] = obj;
+                        obj["id"] = id;
+                        obj["name"] = name;
+                        obj["url"] = url;
+                        obj["sale"] = sale;
+                        obj["bay"] = bay;
+                        obj["amount"] = amount;
+                        obj["CategoryId"] = CategoryId;
+                        obj["description"] = description;
+                        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products.json",
+                            {
+                                method: "PUT",
+                                mode: "cors",
+                                cache: "no-cache",
+                                credentials: "same-origin",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                redirect: "follow",
+                                referrerPolicy: "no-referrer",
+                                body: JSON.stringify(data)
+                            })
+                            .then(response => {
+                                alert("item Added successfully ");
+                                window.close();
+                                window.open("adminDashbord.html")
+                            })
+                            .catch(error => {
+                                alert(" opps error ")
+                            })
+                            
+
+                    })
+            }
+            else {
+                alert("opps error input");
+                window.close();
+                window.open("adminDashbord.html");
+            }
+
+        }
+        function validateForm(item) {
+
+            const regname = new RegExp(/^[0-9a-zA-Z]+([ ]([a-zA-Z0-9])[a-zA-Z0-9 ]*)*$/g)
+            const regurl = new RegExp(/^(https?:\/\/.*\.(?:png|jpg))$/g)
+            if (item.name == "" || item.description == "" || item.url == "" || item.sale == "" || item.bay == "" || item.catigoryId == "") {
+                alert("item is empty");
+                return false;
+            } else if (!(regname.test(item.name))) {
+                alert("name is incorect");
+                return false;
+            } else if (!(regurl.test(item.url))) {
+                alert("url is incorect");
+                return false;
+            } else if (!(parseInt(item.sale) > 0)) {
+                alert("sale is < 0");
+                return false;
+            } else if (!(parseInt(item.amount) > 0)) {
+                alert("amount is < 0");
+                return false;
+            } else if (!(parseInt(item.bay) > 0)) {
+                alert("bay is < 0");
+                return false;
+            }
+            return true;
+        }
+        function Cancele() {
+            window.close();
+            window.open("adminDashbord.html");
+        }
+    </script>
+</body>
+
+</html>

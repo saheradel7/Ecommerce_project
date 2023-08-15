@@ -1,0 +1,47 @@
+{
+    "products" :
+     [
+        {"id" : 1 , "name": "product 1" ,"url":"https://www.apple.com/newsroom/images/product/iphone/standard/Apple-iPhone-14-iPhone-14-Plus-hero-220907.jpg.news_app_ed.jpg" ,"description" : "this is product info","sale":100 ,"bay":80, "amount":5,"CategoryId" :1 , "feedbaackId":[1,2,3]},
+        {"id" : 2 , "name": "product 2" , "url":"https://m.media-amazon.com/images/I/61-QMLtO9PL._AC_UL400_.jpg" ,"description"  : "this is product info","sale":150 ,"bay":80, "amount":5,"CategoryId"  :2,"feedbaackId":[1,2,3]},
+        {"id" : 3 , "name": "product 3" ,"url":"https://m.media-amazon.com/images/I/51Knn1dABuL._AC_UL400_.jpg" , "description"  : "this is product info","sale":50 ,"bay":80, "amount":5,"CategoryId"  :3,"feedbaackId":[1,2,3]},
+        {"id" : 4 , "name": "product 4" ,"url":"https://m.media-amazon.com/images/I/51OIDYcP-qL._AC_SR300,300.jpg" , "description"  : "this is product info","sale":300 ,"bay":80, "amount":5,"CategoryId"  :4,"feedbaackId":[1,2,3]},
+        {"id" : 5 , "name": "product 5" , "url":"https://i.guim.co.uk/img/media/86e607ad3adb3f76eb6431c03aff1c3b19b1984d/2_190_5294_3178/master/5294.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=58f808b2bdfddb1303cb3e043f67191c" ,"description"  : "this is product info","sale":500 ,"bay":80, "amount":5,"CategoryId"  :1,"feedbaackId":[1,2,3]},
+        {"id" : 6 , "name": "product 6" , "url":"https://media1.popsugar-assets.com/files/thumbor/QMnQHX6dywFAF0Klx4KzBfu5v5c=/fit-in/792x1034/filters:format_auto():upscale()/2023/03/23/830/n/1922507/fd5a44b1641ca0a9cf5455.40457376_81OMrE1LGUL..jpg" ,"description"  : "this is product info","sale":65 ,"bay":80, "amount":5,"CategoryId"  :3,"feedbaackId":[1,2,3]}
+    ]
+    ,
+    "Categories" :
+    [
+        {"id" : 1 ,"name" : "Category 1" },
+        {"id" : 2 ,"name" : "Category 2" },
+        {"id" : 3 ,"name" : "Category 3" },
+        {"id" : 4 ,"name" : "Category 4" }
+    ]
+    ,
+   "Users" : 
+    [
+        {"id" : 1 , "firstNname": "hesham" , "lastName" : "mohamed" , "email" : "hesham@gmail.com" , "password" :"123456789","orders" : [1,2,5] },
+        {"id" : 2 , "firstNname" : "mohamed" , "lastName"  : "mohamed" , "email" : "asd@gmail.com" , "password"  :"5555555","orders" : [4] },
+        {"id" : 3 , "firstNname" : "sayed" , "lastName"  : "ahmed" , "email" : "sayed@gmail.com" , "password"  :"abhjhas55","orders" : [] },
+        {"id" : 4 , "firstNname" : "mai" , "lastName"  : "yassen" , "email" : "msss@gmail.com" , "password"  :"7895hf22","orders" : [4,2] },
+        {"id" : 5 , "firstNname" : "atef" , "lastName"  : "nabil" , "email" : "atf55@gmail.com" , "password"  :"hghghg","orders" : [3,6] }
+    ]
+    ,
+    "Admins" :
+    [
+    {"id" : 1 , "firstName" : "Hesham" , "lastName"  : "Mohamed Mohamed" , "email" : "HeshamAboAla@gmail.com" , "password"  :"asd123456789" }
+    ]
+    ,
+    "Feedbacks" : [
+        {"id": 1 , "customerId" : 1 ,"productId":1, "comment":"this is my first comment"},
+        {"id": 2 , "customerId" : 2 ,"productId":2, "comment":"this is my second comment"},
+        {"id": 3 , "customerId" : 1 ,"productId":1, "comment":"this is my thired comment"}
+    ]
+    ,
+    "Orders" :
+    [
+        {"id": 1 , "customerId":1,"productId":[1,2,5],"totalPrice":150,"devlivaryDate" :"2023-7-10","destination":"asuit"},
+        {"id": 3 , "customerId":2,"productId":[3,2,5],"totalPrice":500,"devlivaryDate" :"2023-9-16","destination":"asuit"},
+        {"id": 4 , "customerId":3,"productId":[1,5,6],"totalPrice":100,"devlivaryDate" :"2023-12-10","destination":"cairo"},
+        {"id": 5 , "customerId":1,"productId":[3,2,5],"totalPrice":80,"devlivaryDate" :"2023-8-10","destination":"minya"}
+    ]
+}

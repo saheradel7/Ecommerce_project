@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Add New Category </title>
+    <link href="bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #19283f;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="row g-4 m-5">
+        <label class="col-4 rounded-2 bg-primary me-2" for="CategoryName"> CategoryName </label>
+        <input class="rounded-2 bg-warning col-7" type="text" name="CategoryName" id="CategoryName" required><br>
+        <input class="btn btn-sm btn-block btn-success border-2 border-light col-11 mx-1" type="submit" name="submitBtn"
+            id="submitBtn" value="Save Changes" onclick="EditCategory(event)">
+        <input class="btn btn-sm btn-block btn-danger border-2 border-light col-11 mx-1" type="button" name="cancelBtn"
+            id="cancelBtn" value="Cancel" onclick="Cancel()">
+    </form>
+    <script>
+
+        let firbaseIndex = Number(location.href.split("?")[1].split("&")[0].split("=")[1]);
+        console.log("fb" + firbaseIndex);
+        let id = Number(location.href.split("?")[1].split("&")[1].split("=")[1]);
+        console.log("id  " + id);
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Categories/" + firbaseIndex + ".json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("CategoryName").value = data.name;
+            }
+            );
+        function EditCategory(e) {
+            e.preventDefault();
+            let CategoryName = document.getElementById("CategoryName").value;
+            let IsValid = validateForm(CategoryName);
+
+            if (IsValid) {
+                fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Categories/" + firbaseIndex + ".json",
+                {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        id: `${id}`,
+                        name: `${CategoryName}`,
+                    })
+                })
+                .then(response => {
+                    alert("item updated successfully ");
+                    window.close();
+                    window.open("Catogeries.html");
+
+                })
+                .catch(error => {
+                    alert(" opps error ")
+                })
+            }
+            else {
+                alert("opps error input ");
+                window.close();
+                window.open("Catogeries.html");
+            }
+        }    
+        function Cancel() {
+            window.close();
+            window.open("Catogeries.html");
+        }
+        function validateForm(item) {
+            const regCategory = new RegExp(/^[0-9a-zA-Z]+([ ]([a-zA-Z])[a-zA-Z0-9 ]*)*$/g)
+            if (item == "") {
+                alert("Category is empty");
+                return false;
+            } else if (!(regCategory.test(item))) {
+                alert("Category is incorect");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>

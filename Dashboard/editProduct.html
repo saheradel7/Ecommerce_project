@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Edit </title>
+  <link href="bootstrap.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #19283f;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form class="row g-4 m-5">
+      <label class="col-4 rounded-2 bg-primary me-2" for="productName"> Name </label>
+      <input class="rounded-2 bg-warning col-7" type="text" name="productName" id="productName" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="productDescrption"> Descrption </label>
+      <input class="rounded-2 bg-warning col-7" type="text" name="productDescrption" id="productDescrption" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="url"> urlImg </label>
+      <input class="rounded-2 bg-warning col-7" type="url" name="url" id="url" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="ProductSale"> Sale </label>
+      <input class="rounded-2 bg-warning col-7" type="number" name="ProductSale" id="ProductSale"
+        placeholder="ProductSale" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="ProductBay"> Bay </label>
+      <input class="rounded-2 bg-warning col-7" type="number" name="ProductBay" id="ProductBay" placeholder="ProductBay"
+        required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="productAmount"> Amount </label>
+      <input class="rounded-2 bg-warning col-7" type="number" name="productAmount" id="productAmount"
+        placeholder="productAmount" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="Category"> Category </label>
+      <select class="rounded-2 bg-warning col-7" name="Categort" id="Category"></select>
+      <input class="btn btn-sm btn-block btn-success border-2 border-light col-11 mx-1" type="submit" name="submitBtn"
+        id="submitBtn" value="Save Changes" onclick="EditData(event)">
+      <input class="btn btn-sm btn-block btn-danger border-2 border-light col-11 mx-1" type="button" name="cancleBtn"
+        id="cancleBtn" value=" Cancel ">
+
+    </form>
+  </div>
+  <script>
+    let firbaseIndex = Number(location.href.split("?")[1].split("&")[0].split("=")[1]);
+    console.log("fb" + firbaseIndex);
+    let id = Number(location.href.split("?")[1].split("&")[1].split("=")[1]);
+    console.log("id  " + id)
+    debugger;
+
+    fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products/" + firbaseIndex + ".json")
+      .then(response => {
+        return response.json()
+
+      })
+      .then(data => {
+        console.log(data)
+
+        document.getElementById("productName").value = data.name;
+        document.getElementById("productDescrption").value = data.description;
+        document.getElementById("url").value = data.url;
+        document.getElementById("ProductSale").value = data.sale;
+        document.getElementById("productAmount").value = data.amount;
+        document.getElementById("ProductBay").value = data.bay;
+        let catigoryId = data.CategoryId;
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Categories.json")
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            let select = document.getElementById("Category");
+            for (let key in data) {
+              if (data[key] != null) {
+                let option = document.createElement('option');
+                option.setAttribute("value", data[key].id);
+                option.textContent = data[key].name
+                if (data[key].id == catigoryId) {
+                  option.setAttribute("selected", true);
+
+                }
+                select.appendChild(option)
+              }
+
+            }
+          }
+          )
+
+      })
+      .catch(error => {
+        alert("opps error ")
+      })
+
+
+    ////////*   work with form *///////////////////
+    document.getElementById("cancleBtn").addEventListener('click', function () {
+      window.close();
+      window.open("adminDashbord.html");
+    })
+
+    function EditData(e) {
+      e.preventDefault();
+      
+      let name = document.getElementById("productName").value;
+      let description = document.getElementById("productDescrption").value;
+      let url = document.getElementById("url").value;
+      let sale = document.getElementById("ProductSale").value;
+      let amount = document.getElementById("productAmount").value;
+      let bay = document.getElementById("ProductBay").value;
+      let CategoryId = document.getElementById("Category").value;
+      let data={
+          name: `${name}`,
+          description: `${description}`,
+          url: `${url}`,
+          sale: `${sale}`,
+          bay: `${bay}`,
+          amount: `${amount}`,
+          CategoryId: `${CategoryId}`,
+      }
+      IsValid = validateForm(data);
+      if (IsValid) {
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products/" + firbaseIndex + ".json", {
+        method: "PUT",
+        body: JSON.stringify({
+          id: `${id}`,
+          name: `${name}`,
+          description: `${description}`,
+          url: `${url}`,
+          sale: `${sale}`,
+          bay: `${bay}`,
+          amount: `${amount}`,
+          CategoryId: `${CategoryId}`,
+        })
+      })
+        .then(response => {
+          alert("item updated successfully ");
+          window.close();
+          window.open("adminDashbord.html");
+        })
+        .catch(error => {
+          alert(" opps error ")
+        })
+      }
+      else {
+        alert("opps error input");
+        window.close();
+        window.open("adminDashbord.html");
+      }
+      
+    }
+    function validateForm(item) {
+      debugger
+      const regname = new RegExp(/^[0-9a-zA-Z]+([ ]([a-zA-Z0-9])[a-zA-Z0-9 ]*)*$/g)
+      const regurl = new RegExp(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/g)
+      if (item.name == ""|| item.description == ""|| item.url == "" ||item.sale == "" || item.bay == ""|| item.catigoryId=="") {
+        alert("item is empty");
+        return false;
+      } else if (!(regname.test(item.name))){   
+        alert("name is incorect");
+        return false;
+      } else if (!(regurl.test(item.url)))  {
+        alert("url is incorect or value is < 0");
+        return false;
+      } else if (!(parseInt(item.sale)> 0))  {
+        alert("sale is < 0");
+        return false;
+      }  else if (!(parseInt(item.amount)> 0))  {
+        alert("amount is < 0");
+        return false;
+      }  else if (!(parseInt(item.bay)> 0))  {
+        alert("bay is < 0");
+        return false;
+      }
+      return true;
+    }
+
+  </script>
+</body>
+
+</html>

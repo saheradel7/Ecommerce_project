@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECommerce_Project</title>
+  <link rel="stylesheet" href="Css/bootstrap.min.css">
+  <link rel="stylesheet" href="Css/all.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Css/MyProject.css">
+</head>
+
+<body>
+  <!-- Start NavBar-->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="Index.html">
+        <img src="Images/LogoECom2.PNG" alt="Logo" srcset="" width="40px" height="40px" class="Logo">
+      </a>
+      <!-- Now we have user id zero and two only-->
+      <a class="navbar-brand" href="EditProfile.html?UserId=0" id="Is_Logined_Id"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0" style="--bs-scroll-height: 100px;" id="MoveSections">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="Index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">about_us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ContactUs</a>
+          </li>
+        </ul>
+        <a href="Order_payment.html?UserId=1">
+          <i class="fa-solid fa-cart-shopping AddCart">
+            <span id="ProductsCounter"></span>
+          </i>
+
+        </a>
+
+        <!-- <input class="form-control me-2 d-md-block d-sm-none" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success d-md-block d-sm-none" type="submit">Search</button> -->
+        <select class="form-select" onchange="Change(event)" aria-label="Default select example" id="Category"
+          value="Sections">
+        </select>
+
+        <a class="navbar-brand btn btn-primary Login" href="Index.html" id="LgOut_Button" onclick="LogOut()">LogOut</a>
+        <a class="navbar-brand btn btn-primary Login" href="loginPage.html" id="Login_Button">Login</a>
+        <a class="navbar-brand btn btn-primary Register" href="RegisterPage.html" id="Register_Button">Register</a>
+      </div>
+    </div>
+  </nav>
+  <!-- ///////// Start Carousel   //////// -->
+  <section class="Carousel_Section" id="Home">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide Modified" data-bs-ride="carousel">
+      <!-- Indicators --><!--  hide the indicators in xs Screen-->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+          <img src="Images/nordwood-themes-q8U1YgBaRQk-unsplash.jpg" class="d-block w-100 img-responsive"
+            alt="Ali AlFateh">
+          <div class="carousel-caption d-sm-none d-md-block">
+            <h5>First slide label</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus rerum ab neque fuga nemo,
+              explicabo tempora deserunt, reiciendis autem rem accusamus nobis a nisi consequuntur itaque illum vel,
+              fugit repellat?</p>
+          </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <img src="Images/oliver-pecker-HONJP8DyiSM-unsplash.jpg" class="d-block w-100 img-responsive "
+            alt="Ali AlGuhny">
+          <div class="carousel-caption d-sm-none d-md-block">
+            <h5>Second slide label</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, commodi quaerat neque officiis
+              laudantium numquam accusamus minima temporibus quod et, consequatur quam nemo eius dignissimos, iusto
+              quibusdam repellendus nobis aspernatur.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="Images/pavan-trikutam-71CjSSB83Wo-unsplash.jpg" class="d-block w-100 img-responsive"
+            alt="Ali AlAhmedy">
+          <div class="carousel-caption d-sm-none d-md-block">
+            <h5>Third slide label</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad obcaecati deleniti necessitatibus provident
+              labore maiores odit laborum, cumque quam animi soluta, quas placeat accusantium vitae nobis aperiam
+              adipisci cupiditate quia.</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+  <!-- /////////  End_Carousel      /////////// -->
+
+  <!-- ////////////////////////////// -->
+
+  <!-- ////////////////////////  Product Cards ///////////////// -->
+
+  <!-- ////////////  Start Product card  //////////////// -->
+
+
+  <section class="price_table text-center" id="ProductPrices">
+
+    <div class="container" id="Contact_us">
+      <h2 class="h1">Best Sellers</h2>
+
+      <div class="row" id="_Row">
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- //////////////  End Product Card   ///////////////////// -->
+
+  <!-- //////////////////////  start About Us    ////////////////////////////// -->
+
+  <section class="testimonial text-center" id="about_us"><!--testimonial-->
+    <div id="Testimonial-Carousel" class="carousel carousel-dark slide Modified" data-bs-ride="carousel">
+
+      <h2 class="">About Us</h2>
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+          <div class="carousel-caption">
+            <h4>Ali Zakaryaa AL Guhny</h4>
+            <h5>Software Engineer back-end developer</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus rerum ab neque fuga nemo,
+              explicabo tempora deserunt, reiciendis autem rem accusamus nobis a nisi consequuntur itaque illum vel,
+              fugit repellat?</p>
+          </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <div class="carousel-caption">
+            <h4>Hesham Mohamed </h4>
+            <h5>Software Engineer back-end developer</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, commodi quaerat neque officiis
+              laudantium numquam accusamus minima temporibus quod et, consequatur quam nemo eius dignissimos, iusto
+              quibusdam repellendus nobis aspernatur.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="carousel-caption">
+            <h4>Mohamed Saied Abd El-Sabour</h4>
+            <h5>Software Engineer back-end developer</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad obcaecati deleniti necessitatibus provident
+              labore maiores odit laborum, cumque quam animi soluta, quas placeat accusantium vitae nobis aperiam
+              adipisci cupiditate quia.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Indicators --><!--  hide the indicators in xs Screen-->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#Testimonial-Carousel" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"><img src="Images/Nadal_1.jpg" alt="Esslam">
+        </button>
+        <button type="button" data-bs-target="#Testimonial-Carousel" data-bs-slide-to="1" aria-label="Slide 2">
+          <img src="Images/Nadal_1.jpg" alt="Esslam">
+        </button>
+        <button type="button" data-bs-target="#Testimonial-Carousel" data-bs-slide-to="2" aria-label="Slide 3">
+          <img src="Images/Nadal_1.jpg" alt="Esslam">
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ////////////////////////// End About Us   ///////////////////////////////-->
+
+
+  <!-- /////////////////  start contact Us    //////////////////// -->
+
+
+
+
+
+  <!-- /////////////////////   End Contact us   /////////////////// -->
+
+
+
+
+  <!-- ////////////////   Button FOr Scroll Top    -->
+  <!-- Strat Contact us section     --> <!--                    Contact us                   -->
+  <section class="ContactUs text-center" id="ContactUs">
+    <div class="Fields">
+
+      <div class="container">
+        <div class="row">
+          <i class="fa fa-headphones fa-5x"></i>
+          <h2 class="h1">Contact Us</h2>
+          <p class="lead">
+            Tell Us what is your Opinion , and you email don't show to any one
+          </p>
+
+          <form action="" class="row g-3">
+            <div class="col-md-6 col-sm-12 mb-6">
+              <label for="exampleFormControlInput1" class="form-label"></label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="type your NickName">
+            </div>
+            <div class="col-md-6 col-sm-12 mb-6 ">
+              <label for="exampleFormControlInput1" class="form-label"></label>
+              <input type="email" class="form-control" id="exampleFormControlInput1"
+                placeholder="type your email as name@example.com">
+            </div>
+
+            <div class="col-sm-12 mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label"></label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                placeholder="add your feedback or comment"></textarea>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-danger " type="submit">Submit form</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- //////////////////////  Foooteeeer -->
+
+  <footer>
+    <div class="container pt-5">
+      <div class="row">
+        <div class="col-md-6 col-lg-4 d-flex justify-content-center">
+          <div class="info">
+            <img src="Images/LogoECom2.PNG" alt="" srcset="" class="mb-4 img-circle img-responsive Logo" width="70px"
+              height="70px">
+            <p class="mb-5">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius consequatur natus in sunt autem sit ex
+              dolorum vitae sequi itaque obcaecati minima expedita perspiciatis dolore similique reprehenderit, quisquam
+              laboriosam.
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center">
+          <div class="links">
+            <h5 class="text-light">Links</h5>
+            <ul class="list-unstyled lh-lg">
+              <li>Ali</li>
+              <li>Hesham</li>
+              <li>Mohamed</li>
+              <li>Saher</li>
+              <li>Mahmoud</li>
+            </ul>
+
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center">
+          <div class="links">
+            <h5 class="text-light">Links</h5>
+            <ul class="list-unstyled lh-lg">
+              <li>Ali_2</li>
+              <li>Hesham_2</li>
+              <li>Mohamed_2</li>
+              <li>Saher_2</li>
+              <li>Mahmoud_2</li>
+            </ul>
+
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="contact">
+            <h5 class="text-light">Contact By Another ways</h5>
+            <p class="lh-lg mt-3 mb-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum soluta necessitatibus commodi perspiciatis
+              quos temporibus.
+            </p>
+            <a href="#" class="btn rounded-pill main-btn w-100 btn-primary">Falcon_team@gmail.com</a>
+            <ul class="d-flex justify-content-center mt-5 list-unstyled gap-5">
+              <li>
+                <a href="" class="d-block text-light">
+                  <i class="fa-brands fa-facebook fa-2x facebook rounded-circle p-2"></i>
+                </a>
+              </li>
+              <li>
+                <a href="" class="d-block text-light">
+                  <i class="fa-brands fa-twitter fa-2x twitter rounded-circle p-2"></i>
+                </a>
+              </li>
+              <li>
+                <a href="" class="d-block text-light">
+                  <i class="fa-brands fa-linkedin fa-2x linkedin rounded-circle p-2"></i>
+                </a>
+              </li>
+              <li>
+                <a href="" class="d-block text-light">
+                  <i class="fa-brands fa-youtube fa-2x youtube  rounded-circle p-2"></i>
+                </a>
+              </li>
+            </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy_right text-center">
+      <span>Created by Falcons team</span>
+      Copyright &copy;2023
+    </div>
+  </footer>
+  <div id="Scroll-Top">
+    <i class="fa fa-chevron-circle-up fa-2x" aria-hidden="true"></i>
+  </div>
+
+  <script src="Js/jquery-3.5.1.min.js"></script>
+  <script src="Js/bootstrap.bundle.min.js"></script>
+  <script src="Js/OurJQueryFile.js"></script>
+  <script src="Js/OurJsFileAsBackEnd.js"></script>
+  <script src="JS/jquery.nicescroll.min.js"></script>
+</body>
+
+</html>

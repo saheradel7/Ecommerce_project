@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product_Details</title>
+    <link rel="stylesheet" href="Css/bootstrap.min.css">
+    <link rel="stylesheet" href="Css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Css/DetailsOfProduct.css">
+</head>
+
+<body>
+
+    <!-- ////////////////////////////////////////////////////////// -->
+
+    <div class="container mt-5 p-3 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-sm-4">
+
+                <div class="product-details mr-2" id="Cat_Shoping">
+                    <div class="d-flex flex-row align-items-center"><span class="ml-2">Cart Shopping</span></div>
+                    <hr>
+                    <!-- <h6 class="mb-0">Shopping cart</h6> -->
+                    <div class="d-flex justify-content-between" id="ProductImage">
+                        <!-- /////////////////// image  ///////////////// -->
+                        <!-- is finished  -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <!-- ////////////////////  Detaila Product  with buttons ////////////////////// -->
+
+                <div class="right-side-pro-detail border p-3 m-0">
+                    <div class="row">
+                        <div class="col-lg-12 pt-2">
+                            <span>Wellcome</span>
+                            <p class="m-0 p-0">
+                                I hope that details help you to complete your buy .
+                            </p>
+                        </div>
+                        <div class="col-lg-12 pt-2" id="ProductPrice">
+
+
+                        </div>
+                        <div class="col-lg-12 pt-2" id="ProductDescription">
+
+
+                        </div>
+
+
+                        <div class="col-lg-12 mt-3">
+                            <div class="row">
+                                <div class="col-lg-6 pb-2">
+                                    <button class="btn btn-danger w-100" onclick="setProducts()">Add To
+                                        Cart</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="Index.html" class="btn btn-success w-100">Continue Shopping</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- /////////////////////////////////////////////////// -->
+
+    <!-- //////////////////////////////////////////////// -->
+
+    <script src="Js/jquery-3.5.1.min.js"></script>
+    <script src="Js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="Js/all.min.js"></script> -->
+    <script src="JS/jquery.nicescroll.min.js"></script>
+    <script>
+        let params = (new URL(document.location)).searchParams;
+        let ProductId = params.get("FireBaseIndexForId");
+        let Actually_Product_Id = params.get("ActuallyProductId")
+        let ProductDescription = document.getElementById("ProductDescription")
+        let ProductPrice = document.getElementById("ProductPrice")
+        let ProductImage = document.getElementById("ProductImage")
+        let arrproducts = []
+        let counterProducts = 0
+        // alert(ProductId)
+
+        window.onload = function () {
+            fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products/" + ProductId + ".json")
+                .then(response => {
+                    return response.json();
+
+                })
+                .then(data => {
+
+                    if (data != null) {
+                        ProductImage.innerHTML = `<img src="${data.url}" class="" width="150px" height="400px">`
+                        ProductPrice.innerHTML = `<p class="m-0 p-0 price-pro">$${data.sale}</p><hr class="p-0 m-0">`
+                        ProductDescription.innerHTML = `<h5>Product Detail</h5><span>${data.description}</span><hr class="m-0 pt-2 mt-2">`
+                    }
+                    
+                })
+        }
+
+
+
+
+        function setProducts() {
+            if (localStorage.getItem('Orders') !== null) {
+
+                ////////////////////  products for an order  //////////////////
+                arrproducts = (JSON.parse(localStorage.getItem("Orders")))
+                arrproducts.push(parseInt(Actually_Product_Id))
+                localStorage.setItem("Orders", JSON.stringify(arrproducts))
+
+
+                //////////////////////// Counter Product////////////////////////
+                counterProducts = (JSON.parse(localStorage.getItem("Counter")))
+                counterProducts++
+                localStorage.setItem("Counter", JSON.stringify(counterProducts))
+                // ProductsCounter.innerHTML = counterProducts
+            }
+            else {
+                ////////////////////  products for an order  //////////////////
+                arrproducts.push(parseInt(Actually_Product_Id))
+                localStorage.setItem("Orders", JSON.stringify(arrproducts))
+
+                //////////////////////// Counter Product////////////////////////
+                counterProducts++
+                localStorage.setItem("Counter", JSON.stringify(counterProducts))
+                // ProductsCounter.innerHTML = counterProducts
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Users</title>
+  <link href="Css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="Css/style.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <a class="nav-link me-auto mb-2" href="Index.html"><img src="logo.jpg" alt=""></a>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarList"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">! Font Awesome Free 6.4.0 by
+          @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License)
+          Copyright 2023 Fonticons, Inc.
+          <path fill="white"
+            d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+        </svg>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarList">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="./adminDashbord.html"> products </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./users.html">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Catogeries.html">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./OrderAdmin.html">Orders</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <table class="table table-striped table-bordered align-baseline table-dark text-center" id="userTable">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Orders</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody id="usertTablebody"></tbody>
+  </table>
+  <script src="Js/jquery-3.5.1.min.js"></script>
+  <script src="Js/bootstrap.bundle.min.js"></script>
+  <script>
+    function display(flag) {
+      if (flag === "No Order") {
+        return "No Order"
+      }
+      let dis = ""
+      for (let key in flag) {
+        dis += key + " \t: [ \t" + flag[key].indexProduct + " ] <br>";
+      }
+      return dis
+    }
+    fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        debugger
+        for (let key in data.Users) {
+          if (data.Users[key] != null) {
+            let client = data.Users[key];
+            createElement(client, key);
+          }
+        }
+      })
+      .catch((error) => {
+        alert(error)
+      });
+    function createElement(item, fireBaseIndex) {
+      let tr = document.createElement('tr');
+      tr.setAttribute("id", `${item.id}`);
+      let flag = (item.orders == null) ? "No Order" : item.orders;
+      // if user not order the orders will be have no order 
+      tr.innerHTML = `
+          <th scope="col">${item.id}</th>
+          <th scope="col">${item.firstNname}</th>
+          <th scope="col">${item.lastName}</th>
+          <th scope="col">${item.email}</th>
+          <th scope="col">${display(flag)}</th>
+          <th scope="col"><button type="button" class="btn btn-danger" onclick="Delete('${fireBaseIndex}', '${item.id}')">Delete</button></th>
+        `;
+      document.getElementById("usertTablebody").appendChild(tr);
+    }
+    function Delete(fireBaseIndex, userId) {
+      let status = confirm("are you want to delete User number :\t" + userId);
+      if (status) {
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Users/" + fireBaseIndex + ".json",
+          {
+            method: "Delete"
+          })
+          .then(response => {
+            alert("Item Deleted Successfully")
+            document.getElementById(`${userId}`).remove();
+          })
+          .catch(error => {
+            alert("item not deleted")
+          })
+      }
+    }
+  </script>
+</body>
+
+</html>

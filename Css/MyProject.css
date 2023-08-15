@@ -1,0 +1,808 @@
+:root {
+    --DarkColor: #19283f;
+    --greenColor: #33d1cc;
+    --redcolor:#f00;
+    --bluecolor:#00f;
+
+}
+body {
+    margin:0;
+    padding: 0;
+    font-size: 14px;
+    /* To hidden the scroll from the loading action */
+    /* overflow: auto; */
+    font-family: 'Roboto', sans-serif;
+    /* background-color:darkblue */
+}
+* {
+    margin: 0;
+}
+
+
+.Is_Logined_Class{
+    display: block !important;
+}
+.Not_Logined_Class{
+    display: none !important;
+}
+#Is_Logined_Id{
+    display:none;
+}
+/* start NavBar */
+.form-select{
+    width:50%;
+}
+.navbar {
+    background-color: var(--DarkColor);
+    /* background-color: rgba(11, 11, 11, 0.6); */
+    color: #fff;
+}
+
+.Login_Register {
+    margin-left: 5px
+}
+
+.navbar .navbar-brand {
+    color: #fff;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar .navbar-nav .nav-link.active,
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link:hover {
+    color: var(--greenColor)
+}
+
+.navbar-collapse{
+    padding-right: 15px;
+    padding-left: 15px;
+    /* margin-right: auto;
+    margin-left: auto; */
+    overflow-x: visible;
+    margin-right: -15px;
+    margin-left: -15px;
+    /* background-color: rgba(11, 11, 11, 0.6); */
+
+}
+
+@media (max-width:992px) {
+    .navbar-collapse{
+        background-color: rgba(11, 11, 11, 0.6);
+    
+    }
+}
+
+
+.navbar .navbar-toggler {
+    color: #fff;
+    font-size: 25px;
+    border-color: white;
+}
+
+.navbar .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+._form {
+    margin-bottom: 3px;
+}
+
+.Login {
+    margin-left: 3px;
+    margin-top: 3px;
+    margin-bottom: 4px;
+}
+
+.Register{
+    margin-top: 3px;
+    margin-bottom: 4px;
+}
+
+.navbar-collapse[aria-expanded="true"]{
+    background-color: rgba(11, 11, 11, 0.6);
+}
+.Register[aria-expanded="true"] {
+    margin-top: 5px;
+}
+
+.Login[aria-expanded="true"] {
+    margin-top: 5px;
+}
+.Logo{
+    border-radius: 50%;
+}
+.AddCart{
+    margin-right: 20px;
+    color:#fff;
+}
+/* End NavBar */
+
+
+/* start Carousel  */
+
+
+/*   Carousel   */
+/* .Modified .carousel-inner{
+    height:800px;
+} */
+/* .Modified{
+    height:500px;
+
+} */
+.Carousel_Section {
+    /* height:auto; */
+    height: 500px;
+    min-height: 150px;
+}
+
+.Carousel_Section .carousel-indicators button {
+    /*  cancled the position :absolute   */
+    position: static;
+    width: 15px;
+    /*  modified the margin-left to margin-bottom: 30px;  to arise the bolts  */
+    margin-top: 10px;
+    /*  this paading i'll add it , it's not found in bootstrap.css */
+    /* padding-top: 10px; */
+}
+
+.carousel-dark .carousel-indicators [data-bs-target] {
+    background-color: rgb(0, 81, 255);
+    height: 7px;
+}
+
+/*   
+this code of width:100% is very important because when you click 'ctr' and '-' the image is shiffted
+so the better you should use the picture in hight resolution
+*/
+.Carousel_Section .carousel-inner>.carousel-item>img {
+    width: 100%;
+    height: 550px;
+    min-height: 200px;
+}
+
+.Carousel_Section .carousel-caption {
+    /*  this is setting the text in the pacption  */
+    margin-bottom: 13%;
+    margin-top: 30px;
+    background-color: rgba(3, 3, 3, 0.4);
+    color: #fff;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+/* .carousel-dark .carousel-control-next-icon, .carousel-dark .carousel-control-prev-icon{
+    margin-bottom:5%; 
+} */
+@media (min-width:1200px) and (max-width:1400px) {
+    .Carousel_Section .carousel-caption {
+        margin-bottom: 14%;
+    }
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:15%;
+    }
+
+}
+
+
+@media (max-width:1200px) and (min-width:1054px) {
+    .Carousel_Section .carousel-caption {
+        margin-bottom: 15%;
+    }
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:17%;
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1.5rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:1rem;
+    }
+
+}
+
+@media (max-width:1054px) and (min-width:955px) {
+    .Carousel_Section .carousel-caption {
+        margin-bottom: 18%;
+    }
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:15%;
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1.5rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:1rem;
+    }
+
+}
+
+@media (max-width:955px) and (min-width:768px) {
+    .Carousel_Section .carousel-caption {
+        margin-bottom: 22%;
+    }
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:15%;
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1.5rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:1rem;
+    }
+
+}
+
+@media (max-width:768px) and (min-width:575px) {
+
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:16%;
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1.5rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:.75rem;
+    }
+    
+}
+
+
+@media (max-width:575px){
+    /* .Carousel_Section .carousel-caption {
+        margin-bottom: 20%;
+    } */
+    .Carousel_Section .carousel-caption{
+        display:none
+    }
+    .testimonial .carousel-inner .carousel-item .carousel-caption{
+        width:70%;
+        left:15%;
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1.5rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:.65rem;
+    }
+}
+@media (max-width:400px){
+    /* .Carousel_Section .carousel-caption {
+        margin-bottom: 20%;
+    } */
+    .testimonial .carousel-inner .carousel-caption{
+        width:90%;
+        left:15%;
+
+    }
+    .testimonial .carousel-inner .carousel-caption h4{
+        font-size:1rem;
+    }
+    .testimonial .carousel-inner .carousel-caption h5{
+        font-size:12px;
+    }
+    .testimonial .carousel-inner .carousel-caption p{
+        font-size:.5rem;
+    }
+}
+
+/*  increase the size of indicators   */
+.carousel-indicators button {
+    width: 15px;
+    height: 15px;
+    color: #fff
+}
+
+.carousel-indicators .active {
+    width: 17px;
+    height: 17px;
+}
+
+
+/*   End  Carousel   */
+
+
+
+/* /////////////  start  Product Card    ////////////// */
+
+
+/* Start product price    */
+.price_table {
+    background: #eee;
+    margin-top: 52px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.price_table .price_box{
+    border-radius: 7px;
+}
+.price_table h1 {
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.price_table .price_box {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: solid 1px rgba(183, 175, 175, 0.3);
+}
+
+.price_table .price_box h3 {
+    margin: 5px 0 15px;
+}
+
+.price_table .price_box h3{
+
+}
+.text-primary{
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.card-link{
+    text-decoration: none;
+
+}
+.card-link:hover{
+    color: #fff;
+    font-weight: bold;
+}
+
+
+.price_table .price_box ul{
+    line-height: 150% !important;
+}
+.price_table .price_box ul .Amount{
+    background-color: orange;
+    border-radius: 10%;
+}
+.price_table .price_box ul span{
+    width:2rem;
+    height:2rem;
+    border-radius: 50%;
+    background-color: #19283f;
+    color: #fff;
+    font-weight: bold;
+}
+
+.price_table .price_box p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #666;
+}
+.price_table .price_box:hover p{
+  color:#666;
+  background:#1f1e52;
+}
+
+.price_table .price_box ul {
+    line-height: 200%;
+    font-size: 18px;
+}
+
+.price_table .price_box p {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    background: #ece6e6;
+    border-radius: 50%;
+    /*  the next step is this paragraph will done on it transittion when decided action on it like hover foucs  */
+    -webkit-transition-duration: 0.9s;
+    -moz-transition-duration: 0.9;
+    -ms-transition-duration: 0.9;
+    -o-transition-duration: 0.9;
+    transition-duration: 0.9;
+
+}
+
+.price_table .price_box:hover p {
+    border: 2px rgba(3, 3, 3, 0.3) solid;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+
+}
+
+.price_box {
+    -webkit-transition: 1s;
+    /* Safari */
+    transition: 1s;
+}
+
+.price_box {
+    box-shadow: 0 0 5pt 2pt #D3D3D3;
+}
+
+._Circle {
+    margin: 0 auto;
+}
+
+/* End product price    */
+
+
+
+/* ////////////  End Product Card  ////////////////// */
+/* ///// for buttons */
+.carousel-indicators [data-bs-target] {}
+
+.Btn_ImageUs1 {}
+
+.Btn_ImageUs2 {}
+
+.Btn_ImageUs3 {
+    /* background-image: url("Nadal_1.jpg"); */
+}
+
+/* //////////////  Start About Us  ////////////////////////// */
+
+
+/*  Strart Testimonials    */
+.testimonial {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: var(--DarkColor);
+    box-shadow: 0 0 5pt 5pt #D3D3D3;
+}
+
+.testimonial h2 {
+    font-weight: bold;
+    margin-bottom: 40px;
+    color:#fff;
+}
+
+/* ///// new */
+.testimonial .carousel-inner .carousel-item .carousel-caption {
+    color:#fff;
+}
+.testimonial .carousel-inner {
+    /* z-index: 2000; */
+    font-size: 18px;
+    font-weight: bold;
+    min-height:160px; 
+    
+}
+.testimonial .carousel-inner .carousel-item{
+    /* width:50%; */
+}
+
+
+
+.testimonial .carousel-inner .carousel-caption {
+    position: relative !important;
+    text-align: center;
+    background-color:rgba(3, 3, 3, 0.4);
+    width:50%;
+    margin-top:10px;
+    padding-top: 5%;
+    /* right:25%; */
+    left:25%;
+    border: solid 1px rgba(11, 11, 11, 0.3);
+    box-shadow: 0 0 5pt 2pt #D3D3D3;
+}
+
+.testimonial .carousel-inner .carousel-caption h5 {
+    color: red;
+    font-weight: bold;
+}
+
+.testimonial .carousel-inner {
+    min-height: 160px;
+}
+
+.testimonial .carousel-indicators {
+    /* i'll modify on the charataristics on bootstrap.css */
+    /*  cancled the position :absolute   */
+    position: static;
+    /*  modified the width from 60% to 100%  */
+    width: 100%;
+    /*  modified the margin-left from -15 to auto */
+    margin-left: auto;
+    /*  this paading i'll add it , it's not found in bootstrap.css */
+    padding-top: 10px;
+}
+
+.testimonial .carousel-dark .carousel-indicators [data-bs-target] {
+    height: 100px;
+    width: 100px;
+}
+
+.testimonial .carousel-indicators button {
+    text-indent: 0;
+    border: solid 1px rgba(3, 3, 3, 0.3);
+    /*  make an opacity on the li or specially image  */
+    opacity: .5;
+    /*  this border-radius i'll modify it , it's not 10px in bootstrap.css */
+    border-radius: 50%;
+    border: solid 1px rgba(255, 0, 0, 0.3);
+    overflow: hidden;
+    margin: 5px;
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
+    transition: all .5s ease-out;
+    
+}
+
+.testimonial .carousel-indicators button img {
+    /* max-width: 100%;
+    max-height: 100%; */
+    /* opacity: 0.5; */
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    margin-right: 30px;
+}
+
+.testimonial .carousel-indicators button.active {
+    width: 50px;
+    height: 50px;
+    background: none;
+    border: solid 1px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 5pt 2pt #D3D3D3;
+    /*  reset an opacity on the li or specially image  */
+    opacity: 1;
+}
+
+/*  End Testimonials    */
+
+
+
+
+
+/* ////////////////////   End About Us   ///////////////////////// */
+
+  /*  Start Section ContactUs */
+  .ContactUs{
+    /* background: url('./oliver-pecker-HONJP8DyiSM-unsplash.jpg') ;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover; */
+    min-width: 400px;
+    min-height:300px;
+
+
+}
+.Fields{
+  background:rgba(5, 6, 7, 0.9); 
+  min-height:300px;
+  width:100%; 
+  height:100%;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+/* textarea.form-control */
+/* .ContactUs .Fields textarea.form-control{height:108px;} */
+.ContactUs .Fields p{margin-bottom: 40px;;}
+/* Dark Mode for Form  */
+/* .ContactUs .Fields input[type="text"],.ContactUs .Fields textarea
+{background: rgba(78, 76, 82, 0.7);color:#fff;border: none;} */
+.Fields .container .row form{
+    padding-bottom: 10px;;
+}
+/*  End Section ContactUs */
+
+
+
+/* ////////// start contact Us  ///////////////// */
+
+
+
+
+
+
+
+
+/* //////////////////////  End Contact us   */
+
+/* Start Div Scroll Top  */
+
+/*  Start Section  Loading_page   */
+.Loading_page{
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #020e1b;
+    z-index:99999;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    /* To hidden the scroll from the loading action go to the body tage and write : overflow: hidden;*/
+        
+}
+
+
+.sk-cube-grid {
+    width: 40px;
+    height: 40px;
+    margin: 350px auto;
+  }
+  
+  .sk-cube-grid .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: #4c84b8;
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+  }
+  .sk-cube-grid .sk-cube1 {
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; }
+  .sk-cube-grid .sk-cube2 {
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; }
+  .sk-cube-grid .sk-cube3 {
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s; }
+  .sk-cube-grid .sk-cube4 {
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; }
+  .sk-cube-grid .sk-cube5 {
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; }
+  .sk-cube-grid .sk-cube6 {
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; }
+  .sk-cube-grid .sk-cube7 {
+    -webkit-animation-delay: 0s;
+            animation-delay: 0s; }
+  .sk-cube-grid .sk-cube8 {
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; }
+  .sk-cube-grid .sk-cube9 {
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; }
+  
+  @-webkit-keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+      -webkit-transform: scale3D(1, 1, 1);
+              transform: scale3D(1, 1, 1);
+    } 35% {
+      -webkit-transform: scale3D(0, 0, 1);
+              transform: scale3D(0, 0, 1); 
+    }
+  }
+  
+  @keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+      -webkit-transform: scale3D(1, 1, 1);
+              transform: scale3D(1, 1, 1);
+    } 35% {
+      -webkit-transform: scale3D(0, 0, 1);
+              transform: scale3D(0, 0, 1);
+    } 
+  }  
+
+  /*  End Section  Loading_page   */
+
+
+
+  /* Start Div Scroll Top  */
+
+#Scroll-Top{
+    width:65px;
+    height: 65px;
+    border-radius: 20px;;
+    opacity:0.7;
+    color: #a61818;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 99999;
+    text-align: center;
+    cursor:pointer;
+    font-size:10px;
+    display: none;
+}
+#Scroll-Top:hover{
+    opacity: 1;
+}
+#Scroll-Top .chev{
+    color:#fff;
+}
+
+  /*  End Div Scroll Top  */
+
+
+  footer{
+    background-color: var(--DarkColor);
+    color:white;
+  }
+  footer .logo1{
+     
+  }
+
+
+  .copy_right{
+    background: #414040;
+    padding-top:10px;
+    margin-top:20px;
+    /* color:#a7a3a3 */
+    color:#aaa;
+    padding-bottom: 10px;;
+}
+
+footer .copy_right span{font-size: 20px;font-weight: bold;}
+
+footer .contact ul svg{
+   width:20px;
+   height:20px;
+}
+footer .facebook{
+    background-color: #1877f2;
+}
+footer .twitter{
+    background-color: #1da1f2;
+}
+footer .linkedin{
+    background-color: #0077b5
+}
+footer .youtube{
+    background-color: #ff0000
+}
+
+.btn_Decreasing{
+    border:none;
+    display:none;
+    background-color: none;
+    width:2rem;
+    height:2rem;
+}
+.btn_Increasing{
+    border:none;
+    display:none;
+    background-color: none;
+    width:2rem;
+    height:2rem;
+}
+/* #Button_Increasing_Decreasing, */
+.Display_Icreasing_Decreasing{
+    display:none;
+}
+
+.btn-outline-success:focus{
+    border-color: none;
+    box-shadow: none;;
+    outline: none;
+}
+
+.btn-outline-danger:focus{
+    border-color: none;
+    box-shadow: none;;
+    outline: none;
+}
+
+

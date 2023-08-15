@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Edit </title>
+  <link href="bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #19283f;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container ">
+    <form class="row g-4 m-5">
+      <label class="col-4 rounded-2 bg-primary me-2" for="Orderid"> Orderid </label>
+      <input class="rounded-2 bg-secondary col-7" type="text" name="Orderid" id="Orderid" disabled required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="customerId"> customerId </label>
+      <input class="rounded-2 bg-secondary col-7" type="text" name="customerId" id="customerId" disabled required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="productId"> productId </label>
+      <select class="rounded-2 bg-warning col-7" name="productId" id="productId" multiple></select>
+      <!-- <input class="rounded-2 bg-warning col-7" type="text" name="productId" id="productId" placeholder="enter productId ex 1,2,5 " required> -->
+      <label class="col-4 rounded-2 bg-primary me-2" for="totalPrice"> totalPrice </label>
+      <input class="rounded-2 bg-warning col-7" type="number" name="totalPrice" id="totalPrice"
+        placeholder="enter totalPrice" disabled required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="devlivaryDate"> devlivaryDate </label>
+      <input class="rounded-2 bg-warning col-7" type="date" name="devlivaryDate" id="devlivaryDate"
+        placeholder="enter devlivaryDate" required>
+      <label class="col-4 rounded-2 bg-primary me-2" for="destination"> destination </label>
+      <input class="rounded-2 bg-warning col-7" type="text" name="destination" id="destination"
+        placeholder="enter destination" required>
+      <input class="btn btn-sm btn-block btn-success border-2 border-light col-11 mx-1" type="submit" name="submitBtn"
+        id="submitBtn" value="Save Changes" onclick="EditData(event)">
+      <input class="btn btn-sm btn-block btn-danger border-2 border-light col-11 mx-1" type="button" name="cancleBtn"
+        id="cancleBtn" value="Cancel">
+      <!-- <button class="btn btn-sm btn-block btn-close btn-outline-warning bg-warning w-100 border-2 border-light"  name="cancleBtn" id="cancleBtn" value=" Cancel" ></button> -->
+    </form>
+  </div>
+  <script>
+    debugger;
+    let IsValid = true;
+    let firbaseIndex = Number(location.href.split("?")[1].split("&")[0].split("=")[1]);
+    // console.log("fb" + firbaseIndex);
+    let id = Number(location.href.split("?")[1].split("&")[1].split("=")[1]);
+    // console.log("id  "+id)
+    let allData;
+    fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Orders/" + firbaseIndex + ".json")
+      .then(response => {
+        return response.json()
+
+      })
+      .then(data => {
+        document.getElementById("Orderid").value = data.id;
+        document.getElementById("customerId").value = data.customerId;
+        document.getElementById("devlivaryDate").value = data.devlivaryDate;
+        document.getElementById("destination").value = data.destination;
+        document.getElementById("totalPrice").value = data.totalPrice;
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            allData = data;
+            let select = document.getElementById("productId");
+            for (let i = 0; i < data.products.length; i++) {
+              if (data.products[i] != null) {
+                let option = document.createElement('option');
+                option.setAttribute("value", data.products[i].id);
+                // console.log(data.products[i].name);
+                option.text = data.products[i].name;
+                select.options.add(option, 1);
+              }
+            }
+          }
+          )
+
+      })
+      .catch(error => {
+        alert("opps error ")
+      })
+
+
+
+
+    ////////*   work with form *///////////////////
+
+
+
+
+    function EditData(e) {
+      debugger
+      e.preventDefault();
+      let Orderid = document.getElementById("Orderid").value
+      let customerId = document.getElementById("customerId").value
+      let Product = document.getElementById("productId") // Used in getidAndNameProduct
+      let devlivaryDate = document.getElementById("devlivaryDate").value;
+      let destination = document.getElementById("destination").value;
+      let totalPrice = document.getElementById("totalPrice").value
+      let productId = [] // Used in getidAndNameProduct
+      let selectedArray = [] // Used in getidAndNameProduct
+      getidAndNameProduct()
+      gettotalPrice()
+      let data = {
+                destination: `${destination}`,
+                devlivaryDate: `${devlivaryDate}`,
+                selectedArray: `${selectedArray}`,
+            }
+      IsValid = validateForm(data);
+
+      if (IsValid) {
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Orders/" + firbaseIndex + ".json", {
+        method: "PUT",
+        body: JSON.stringify({
+          id: `${id}`,
+          customerId: `${customerId}`,
+          productId: `${productId}`,
+          devlivaryDate: `${devlivaryDate}`,
+          destination: `${destination}`,
+          totalPrice: `${totalPrice}`,
+
+        })
+      })
+        .then(response => {
+          alert("item updated successfully ");
+          window.close();
+          window.open("OrderAdmin.html");
+        })
+        .catch(error => {
+          alert(" opps error ")
+        })
+      }
+      else {
+        alert("opps error input ");
+        window.close();
+        window.open("OrderAdmin.html");
+      }
+      function getidAndNameProduct() {
+        let count = 0
+        for (i = 0; i < Product.options.length; i++) {
+          if (Product.options[i].selected) {
+            selectedArray.push(Product.options[i].text);
+            productId.push(Product.options[i].value)
+            count++;
+          }
+        }
+      }
+      function gettotalPrice() {
+        totalPrice = 0;
+        for (const key in allData.products) {
+          if (allData.products[key] != null) {
+            for (let i = 0; i < selectedArray.length; i++) {
+              if (selectedArray[i] == allData.products[key].name) {
+                totalPrice += parseInt(allData.products[key].bay);
+              }
+            }
+          }
+        }
+      }
+    }
+    document.getElementById("cancleBtn").addEventListener('click', function () {
+      window.close();
+      window.open("OrderAdmin.html");
+    })
+    function validateForm(item) {
+      const regdestination = new RegExp(/^[a-zA-Z]+(([ ][a-zA-Z ])?[a-zA-Z0-9]*)*$/g)
+      if (item.destination == "" || item.devlivaryDate == "" || item.selectedArray==[]) {
+        alert("item is empty");
+        return false;
+      } else if (!(regdestination.test(item.destination))) {
+        alert("destination is incorect");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catogeries</title>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <!-- Nav Bar  -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <a class="nav-link me-auto mb-2" href="./home.html"><img src="logo.jpg" alt=""></a>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarList"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <!-- <i class="fa-solid fa-bars"></i> -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 448 512"
+          >
+            ! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com
+            License - https://fontawesome.com/license (Commercial License)
+            Copyright 2023 Fonticons, Inc.
+            <path
+              fill="white"
+              d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+            />
+          </svg>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarList">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link " href="adminDashbord.html"> products </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="users.html">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="Catogeries.html">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./OrderAdmin.html">Orders</a>
+            </li>
+          </ul>
+          <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <!-- <button class="btn btn-sm btn-block btn-warning" id="newprodct" onclick="AddNewProduct()"> Add New Product</button> -->
+            <button class="btn btn-sm btn-block btn-warning" id="newCatgory" onclick="AddNewCatgory()"> Add New Category </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <table class="table table-striped table-bordered align-baseline table-dark text-center" id="userTable">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col"> Catgory Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody id="catogeryTablebody"></tbody>
+      </table>
+      <script src="Js/bootstrap.bundle.js"></script>
+      <script>
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/.json")
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            for (let key in data.Categories) 
+            {
+              if(  data.Categories[key]!= null) // when you delete the firebase set element with null
+                  {
+                      let fireBaseIndex = key;
+                       let Category = data.Categories[key];
+                       createElement(Category, fireBaseIndex);
+                  }
+            
+            }
+          })
+          .catch((error) => 
+          {
+            console.error(`Error: ${error.message}`);
+          });
+        
+
+          function AddNewCatgory()
+          {
+          window.close()
+          window.open('AddNewCatgory.html',"_blank" ,"top=100,left=500,width=500,height=600");
+          }        
+          
+          function createElement(item, fireBaseIndex) {
+          let tr = document.createElement("tr");
+          tr.setAttribute("id", `${item.id}`);
+          tr.innerHTML = `
+            <th scope="col">${item.id}</th>
+            <th scope="col">${item.name}</th>
+            <th scope="col"><button type="button" class="btn btn-sm btn-block btn-warning" onclick="Edit('${fireBaseIndex}', '${item.id}')">Edit</button></th>
+            <th scope="col"><button type="button" class= "btn btn-sm btn-block btn-danger" onclick="Delete('${fireBaseIndex}', '${item.id}')">Delete</button></th>
+          `;
+          document.getElementById("catogeryTablebody").appendChild(tr);
+        }
+      
+          function Edit(fireBaseIndex, CategoryId) 
+        {
+          console.log("Edit function called with Firebase index:", fireBaseIndex, "and productId:", CategoryId);
+          window.close();
+          window.open("EditCategory.html?fireBaseIndex="+ fireBaseIndex +"& id="+ CategoryId +"" ,"_blank","top=100,left=500,width=500,height=600")
+
+        }
+
+          function Delete(fireBaseIndex, CategoryId) 
+        {
+        console.log("Delete function called with Firebase index:", fireBaseIndex, "and productId:", CategoryId);
+         
+        // check that catgory id not assigned to product 
+        fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/products/.json")
+        .then(response => {
+            return response.json(); 
+
+        })
+        .then(data => {
+          debugger;
+          let countOfProducts =0;
+          for (const key in data) 
+          {
+            if(data[key] === null)
+            {
+              continue;
+            }
+            if(data[key].CategoryId == CategoryId)
+            {
+              countOfProducts++;
+            }
+          }
+
+          if(countOfProducts > 0)
+          {
+            alert("you cant delete this categrory because its assing to \t" + countOfProducts + "\tproduct")
+          }
+          else
+          {
+            let status = confirm("are you want to delete User number :\t" + CategoryId);
+              if(status)
+              {
+                    fetch("https://project1-2d2e6-default-rtdb.firebaseio.com/Categories/"+fireBaseIndex+".json",
+                    {
+                      method:"Delete"
+                    })
+                    .then(response => {
+                      alert("Item Deleted Successfully")
+                      document.getElementById(`${CategoryId}`).remove();
+                    })
+                    .catch(error => {
+                      alert("item not deleted")
+                    })
+              }
+          }
+
+
+        })
+
+
+        // end the chec
+ 
+        
+        }
+    </script>
+    
+        
